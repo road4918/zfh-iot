@@ -1,1 +1,0 @@
-import{_ as s,c as a,a as r,w as n,r as l,o as c,d as o}from"./index-CBItBaSZ.js";const d={},_={class:"app-container"};function p(i,e){const t=l("el-card");return c(),a("div",_,[r(t,null,{header:n(()=>[...e[0]||(e[0]=[o("span",null,"表计管理",-1)])]),default:n(()=>[e[1]||(e[1]=o("p",null,"表计管理页面 - 开发中",-1))]),_:1})])}const u=s(d,[["render",p]]);export{u as default};

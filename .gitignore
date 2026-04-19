@@ -6,6 +6,7 @@ dist/
 target/
 out/
 build/
+zfh-iot-web/zfh-iot-frontend/iot/
 
 # Logs
 *.log
