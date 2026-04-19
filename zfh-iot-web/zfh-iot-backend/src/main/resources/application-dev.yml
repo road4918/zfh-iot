@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      mysql:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://172.18.100.10:4886/zfh_iot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+        username: root
+        password: Sunrise300306@
+        initial-size: 10
+        min-idle: 10
+        max-active: 100
+        max-wait: 60000
+      tdengine:
+        driver-class-name: com.taosdata.jdbc.TSDBDriver
+        jdbc-url: jdbc:TAOS://172.18.100.65:6030/zfh_iot_tsdb
+        username: root
+        password: taosd@2025
+        
+  redis:
+    host: 172.18.100.8
+    port: 6385
+    password: aPeAHr4GhKKgiIEQ
+    database: 3
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0

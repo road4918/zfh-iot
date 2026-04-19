@@ -1,0 +1,63 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: zfh-virtual-device-backend
+  
+  datasource:
+    url: jdbc:h2:file:./data/virtual-device-db;DB_CLOSE_DELAY=-1;MODE=MySQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+  
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  
+  sql:
+    init:
+      schema-locations: classpath:db/schema.sql
+      mode: always
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+virtual-device:
+  tcp:
+    boss-threads: 2
+    worker-threads: 8
+    reconnect-base-interval: 5000
+    reconnect-max-interval: 60000
+    reconnect-max-attempts: 10
+    reconnect-backoff-multiplier: 2
+  mqtt:
+    default-broker: tcp://localhost:1883
+    default-qos: 1
+    connection-timeout: 30
+    keep-alive-interval: 60
+    reconnect-base-interval: 5000
+    reconnect-max-interval: 60000
+    reconnect-max-attempts: 10
+    reconnect-backoff-multiplier: 2
+  simulation:
+    default-report-interval: 30
+    max-concurrent-devices: 1000
+    scheduler-pool-size: 50
+  logging:
+    retention-days: 7
+    max-records-per-query: 10000
+
+jwt:
+  secret: zfh-virtual-device-lab-secret-key-2026
+  expiration: 3600000
+  refresh-expiration: 604800000

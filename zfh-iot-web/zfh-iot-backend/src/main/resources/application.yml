@@ -1,0 +1,46 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: zfh-iot-backend
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
+
+# MyBatis Plus
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: com.zfh.iot.modules.*.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# JWT配置
+jwt:
+  secret: your-256-bit-secret-key-for-jwt-signing-must-be-at-least-32-characters-long
+  expiration: 7200000  # 2小时
+  refresh-expiration: 604800000  # 7天
+
+# 日志
+logging:
+  level:
+    com.zfh.iot: debug
+    com.baomidou.mybatisplus: debug
+
+# Disable Shiro auto-configuration (using custom ShiroConfig)
+shiro:
+  enabled: false
