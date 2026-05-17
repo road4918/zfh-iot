@@ -4,18 +4,18 @@ spring:
     druid:
       mysql:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://172.18.100.10:4886/zfh_iot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+        url: jdbc:mysql://192.168.3.211/zfh_iot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
         username: root
-        password: Sunrise300306@
+        password: iamadoctor
         initial-size: 10
         min-idle: 10
         max-active: 100
         max-wait: 60000
         
   redis:
-    host: 172.18.100.8
-    port: 6385
-    password: aPeAHr4GhKKgiIEQ
+    host: 192.168.3.211
+    port: 6379
+    password: iamadoctor
     database: 3
     lettuce:
       pool:
