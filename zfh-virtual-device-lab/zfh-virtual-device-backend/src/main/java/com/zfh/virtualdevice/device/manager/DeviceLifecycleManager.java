@@ -16,6 +16,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -44,7 +45,7 @@ public class DeviceLifecycleManager {
     public void onApplicationStart() {
         log.info("Application started, recovering device connections...");
         
-        var onlineGateways = gatewayMapper.selectList(
+        List<VirtualGateway> onlineGateways = gatewayMapper.selectList(
             new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<VirtualGateway>()
                 .eq(VirtualGateway::getStatus, DeviceStatus.ONLINE));
         for (VirtualGateway gateway : onlineGateways) {
@@ -55,7 +56,7 @@ public class DeviceLifecycleManager {
             }
         }
         
-        var onlineMeters = meterMapper.selectList(
+        List<VirtualMeter> onlineMeters = meterMapper.selectList(
             new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<VirtualMeter>()
                 .eq(VirtualMeter::getStatus, DeviceStatus.ONLINE));
         for (VirtualMeter meter : onlineMeters) {
@@ -140,7 +141,7 @@ public class DeviceLifecycleManager {
             conn.disconnect();
         }
         
-        var meters = meterMapper.selectList(
+        List<VirtualMeter> meters = meterMapper.selectList(
             new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<VirtualMeter>()
                 .eq(VirtualMeter::getGatewayId, gatewayId));
         for (VirtualMeter meter : meters) {

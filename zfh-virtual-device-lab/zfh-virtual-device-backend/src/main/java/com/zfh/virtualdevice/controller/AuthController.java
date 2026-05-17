@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class AuthController {
     private final String adminUsername = "admin";
     private String adminPassword;
     
-    @org.springframework.beans.factory.annotation.PostConstruct
+    @PostConstruct
     public void init() {
         this.adminPassword = passwordEncoder.encode("admin123");
     }

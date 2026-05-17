@@ -16,7 +16,7 @@ export const useWebSocketStore = defineStore('websocket', () => {
     if (!authStore.token) return
 
     const stompClient = new Client({
-      webSocketFactory: () => new SockJS(`/ws/virtual-device?token=${authStore.token}`),
+      webSocketFactory: () => new SockJS(`/zfh-virtual-device-backend/ws/virtual-device?token=${authStore.token}`),
       reconnectDelay: 5000,
       onConnect: () => {
         connected.value = true

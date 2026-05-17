@@ -1,5 +1,8 @@
 package com.zfh.virtualdevice.websocket;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.zfh.virtualdevice.entity.VirtualGateway;
+import com.zfh.virtualdevice.entity.VirtualMeter;
 import com.zfh.virtualdevice.enums.DeviceStatus;
 import com.zfh.virtualdevice.mapper.VirtualGatewayMapper;
 import com.zfh.virtualdevice.mapper.VirtualMeterMapper;
@@ -9,6 +12,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -25,30 +30,28 @@ public class DeviceWebSocketController {
     private VirtualMeterMapper meterMapper;
     
     public void sendDeviceStatus(Long deviceId, String deviceType, String status) {
-        Map<String, Object> message = Map.of(
-            "type", "DEVICE_STATUS",
-            "deviceType", deviceType,
-            "deviceId", deviceId,
-            "status", status,
-            "timestamp", java.time.LocalDateTime.now().toString()
-        );
+        Map<String, Object> message = new HashMap<>();
+        message.put("type", "DEVICE_STATUS");
+        message.put("deviceType", deviceType);
+        message.put("deviceId", deviceId);
+        message.put("status", status);
+        message.put("timestamp", LocalDateTime.now().toString());
         messagingTemplate.convertAndSend("/topic/device-status", message);
     }
     
     public void sendCommLog(Long logId, Long deviceId, String deviceName, 
                            String direction, String protocol, String rawData, String parsedData) {
-        Map<String, Object> message = Map.of(
-            "type", "COMM_LOG",
-            "logId", logId,
-            "deviceType", "METER",
-            "deviceId", deviceId,
-            "deviceName", deviceName,
-            "direction", direction,
-            "protocol", protocol,
-            "rawData", rawData,
-            "parsedData", parsedData,
-            "timestamp", java.time.LocalDateTime.now().toString()
-        );
+        Map<String, Object> message = new HashMap<>();
+        message.put("type", "COMM_LOG");
+        message.put("logId", logId);
+        message.put("deviceType", "METER");
+        message.put("deviceId", deviceId);
+        message.put("deviceName", deviceName);
+        message.put("direction", direction);
+        message.put("protocol", protocol);
+        message.put("rawData", rawData);
+        message.put("parsedData", parsedData);
+        message.put("timestamp", LocalDateTime.now().toString());
         messagingTemplate.convertAndSend("/topic/comm-logs", message);
     }
     
@@ -56,23 +59,22 @@ public class DeviceWebSocketController {
     public void sendStats() {
         long totalGateways = gatewayMapper.selectCount(null);
         long onlineGateways = gatewayMapper.selectCount(
-            new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<>()
-                .eq(com.zfh.virtualdevice.entity.VirtualGateway::getStatus, DeviceStatus.ONLINE));
+            new LambdaQueryWrapper<VirtualGateway>()
+                .eq(VirtualGateway::getStatus, DeviceStatus.ONLINE));
         
         long totalMeters = meterMapper.selectCount(null);
         long onlineMeters = meterMapper.selectCount(
-            new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<>()
-                .eq(com.zfh.virtualdevice.entity.VirtualMeter::getStatus, DeviceStatus.ONLINE));
+            new LambdaQueryWrapper<VirtualMeter>()
+                .eq(VirtualMeter::getStatus, DeviceStatus.ONLINE));
         
-        Map<String, Object> message = Map.of(
-            "type", "STATS_UPDATE",
-            "onlineGateways", (int) onlineGateways,
-            "totalGateways", (int) totalGateways,
-            "onlineMeters", (int) onlineMeters,
-            "totalMeters", (int) totalMeters,
-            "todayUpMessages", 0,
-            "todayDownMessages", 0
-        );
+        Map<String, Object> message = new HashMap<>();
+        message.put("type", "STATS_UPDATE");
+        message.put("onlineGateways", (int) onlineGateways);
+        message.put("totalGateways", (int) totalGateways);
+        message.put("onlineMeters", (int) onlineMeters);
+        message.put("totalMeters", (int) totalMeters);
+        message.put("todayUpMessages", 0);
+        message.put("todayDownMessages", 0);
         messagingTemplate.convertAndSend("/topic/stats", message);
     }
 }

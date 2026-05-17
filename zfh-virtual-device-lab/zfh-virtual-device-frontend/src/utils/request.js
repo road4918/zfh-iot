@@ -3,7 +3,7 @@ import { ElMessage } from 'element-plus'
 import { useAuthStore } from '../stores/auth'
 
 const request = axios.create({
-  baseURL: '/api',
+  baseURL: '/zfh-virtual-device-backend/api',
   timeout: 10000
 })
 
@@ -34,7 +34,7 @@ request.interceptors.response.use(
     if (response?.status === 401) {
       const authStore = useAuthStore()
       authStore.logout()
-      window.location.href = '/login'
+      window.location.href = import.meta.env.BASE_URL + 'login'
     } else {
       ElMessage.error(response?.data?.message || '网络错误')
     }

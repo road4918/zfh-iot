@@ -14,11 +14,13 @@ import com.zfh.virtualdevice.mapper.VirtualMeterMapper;
 import com.zfh.virtualdevice.protocol.DeviceContext;
 import com.zfh.virtualdevice.protocol.DeviceData;
 import com.zfh.virtualdevice.protocol.EncodedMessage;
-import com.zfh.virtualdevice.protocol.ProtocolFactory;
+import com.zfh.virtualdevice.protocol.ProtocolHandler;
+import com.zfh.virtualdevice.protocol.factory.ProtocolFactory;
 import com.zfh.virtualdevice.service.CommunicationLogService;
 import com.zfh.virtualdevice.websocket.DeviceWebSocketController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -39,6 +41,7 @@ public class DataSimulationEngine {
     private MeterDataConfigMapper configMapper;
     
     @Autowired
+    @Lazy
     private DeviceLifecycleManager lifecycleManager;
     
     @Autowired
@@ -141,10 +144,10 @@ public class DataSimulationEngine {
                 .units(units)
                 .build();
             
-            var connection = lifecycleManager.getConnection(meterId, DeviceType.METER);
+            Object connection = lifecycleManager.getConnection(meterId, DeviceType.METER);
             if (connection instanceof MqttDeviceConnection) {
                 MqttDeviceConnection mqttConn = (MqttDeviceConnection) connection;
-                var handler = protocolFactory.getHandler(meter.getProtocol());
+                ProtocolHandler handler = protocolFactory.getHandler(meter.getProtocol());
                 
                 DeviceContext ctx = new DeviceContext();
                 ctx.setDeviceId(meterId);

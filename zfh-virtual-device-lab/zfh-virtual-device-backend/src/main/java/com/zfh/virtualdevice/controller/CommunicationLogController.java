@@ -24,7 +24,7 @@ public class CommunicationLogController {
             @RequestParam(required = false) String protocol) {
         
         Page<CommunicationLog> page = new Page<>(current, size);
-        var query = logService.lambdaQuery();
+        com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper<CommunicationLog> query = logService.lambdaQuery();
         
         if (deviceType != null) {
             query.eq(CommunicationLog::getDeviceType, deviceType);

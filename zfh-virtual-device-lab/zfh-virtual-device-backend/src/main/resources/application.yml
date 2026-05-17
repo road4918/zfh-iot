@@ -1,5 +1,7 @@
 server:
   port: 8080
+  servlet:
+    context-path: /zfh-virtual-device-backend
 
 spring:
   application:

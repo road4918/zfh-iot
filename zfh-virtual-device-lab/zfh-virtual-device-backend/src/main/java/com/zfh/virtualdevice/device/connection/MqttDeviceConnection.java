@@ -137,7 +137,7 @@ public class MqttDeviceConnection implements DeviceConnection {
         return "telemetry/" + deviceType.name().toLowerCase() + "/" + deviceId;
     }
     
-    MqttClient getClient() {
+    public MqttClient getClient() {
         return client;
     }
 }
